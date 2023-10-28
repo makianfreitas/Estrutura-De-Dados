@@ -13,6 +13,8 @@ typedef struct cab_lista{
 }T_cabeca;
 T_cabeca *cabeca;
 
+int cont;
+
 T_cabeca * ini_cabeca();
 void inserir(int n);
 T_lista * obtem_endereco();
@@ -106,24 +108,25 @@ void inserir(int n){
     if(cabeca->inicio == NULL){//Tá vazio?
         cabeca->inicio = novo;
         cabeca->fim = novo;
-        novo->prox = NULL;
+        novo->prox = novo;
     } else {//Não tá vazio
         atual = cabeca->inicio;
         aux = cabeca->inicio;
-        while((atual != NULL) && (atual->info < n)){
+        for(cont=0; cont < cabeca->tam && atual->info < n; cont++){
             aux = atual;
             atual = atual->prox;
         }
-        if((atual != NULL) && (atual->info == n)){//Já existe?
+        if((cont < cabeca->tam) && (atual->info == n)){//Já existe?
             system("cls");
             printf("O elemento ja existe!\n\n");
             system("pause");
             return;
-        } else if(atual == cabeca->inicio){//Não existe / Tem que inserir no início?
+        } else if((atual == cabeca->inicio) && (cont == 0)){//Não existe / Tem que inserir no início?
             novo->prox = cabeca->inicio;
             cabeca->inicio = novo;
-        } else if(atual == NULL){//Não tem que inserir no início / Tem que inserir no fim?
-            novo->prox = NULL;
+            cabeca->fim->prox = novo;
+        } else if(cont == cabeca->tam){//Não tem que inserir no início / Tem que inserir no fim?
+            novo->prox = cabeca->inicio;
             cabeca->fim->prox = novo;
             cabeca->fim = novo;
         } else {//Não tem que inserir no fim, e sim no meio
@@ -151,10 +154,10 @@ T_lista * obtem_endereco(){
 
 int consultar(int n){
     T_lista *atual = cabeca->inicio;
-    while((atual != NULL) && (atual->info != n)){
+    for(cont=0; cont < cabeca->tam && atual->info != n; cont++){
         atual = atual->prox;
     }
-    if(atual == NULL){
+    if(cont == cabeca->tam){
         return -1;
     } else {
         return atual->info;
@@ -164,24 +167,27 @@ int consultar(int n){
 void excluir(int n){
     T_lista *aux = cabeca->inicio;
     T_lista *atual = cabeca->inicio;
-    while((atual != NULL) && (atual->info != n)){
+    for(cont=0; cont < cabeca->tam && atual->info != n; cont++){
         aux = atual;
         atual = atual->prox;
     }
-    if(atual == NULL){//Não existe
+    if(cont == cabeca->tam){//Não existe
         system("cls");
         printf("Elemento nao encontrado.\n\n");
         system("pause");
         return;
     }
     if(atual == cabeca->inicio){//Foi encontrado no início?
-        cabeca->inicio = atual->prox;
-        if(atual == cabeca->fim){//É o único elemento?
+        if(cabeca->inicio == cabeca->fim){//É o único elemento?
+            cabeca->inicio = NULL;
             cabeca->fim = NULL;
+        } else {//Não é o único elemento
+            cabeca->inicio = atual->prox;
+            cabeca->fim->prox = cabeca->inicio;
         }
     } else if(atual == cabeca->fim){//Não foi encontrado no início / Foi encontrado no fim?
         cabeca->fim = aux;
-        cabeca->fim->prox = NULL;
+        cabeca->fim->prox = cabeca->inicio;
     } else {//Não foi encontrado no fim, e sim no meio
         aux->prox = atual->prox;
     }
@@ -201,7 +207,7 @@ void listar(){
     }
     T_lista *atual = cabeca->inicio;
     printf("Elementos da lista:\n");
-    while(atual != NULL){
+    for(cont=0; cont < cabeca->tam; cont++){
         printf("\t%d\n", atual->info);
         atual = atual->prox;
     }
