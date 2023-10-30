@@ -1,4 +1,4 @@
-//CÓDIGO BASE DE FILA EM ESTRUTURA DINÂMICA
+//CÓDIGO BASE DE PILHA EM ESTRUTURA DINÂMICA
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,28 +8,26 @@ typedef struct nodo{
     struct nodo *prox;
 }T_nodo;
 
-typedef struct fila{
-    T_nodo *inicio;
-    T_nodo *fim;
-    int tam;
-}T_fila;
+typedef struct pilha{
+    T_nodo *topo;
+}T_pilha;
 
-T_fila * inicializa_fila();
-void insere_fila(int, T_fila *);
+T_pilha * inicializa_fila();
+void empilha(int, T_pilha *);
 T_nodo * obtem_endereco();
-void retira_fila(T_fila *);
-void mostra_dados(T_fila *);
+void desempilha(T_pilha *);
+void mostra_dados(T_pilha *);
 
 int main(){
     int n, op;
     system("cls");
-    T_fila *ppilha = inicializa_fila();
+    T_pilha *ppilha = inicializa_fila();
     do{
         do{
             system("cls");
             printf("******************** MENU ********************\n");
-            printf("\t1- Inserir\n");
-            printf("\t2- Retirar\n");
+            printf("\t1- Empilhar\n");
+            printf("\t2- Desempilhar\n");
             printf("\t3- Mostrar Dados\n");
             printf("\t0- Finalizar\n");
             scanf("\t%d", &op);
@@ -38,11 +36,11 @@ int main(){
                     system("cls");
                     printf("Digite a informacao: ");
                     scanf("%d", &n);
-                    insere_fila(n, ppilha);
+                    empilha(n, ppilha);
                     break;
                 
                 case 2:
-                    retira_fila(ppilha);
+                    desempilha(ppilha);
                     break;
                 
                 case 3:
@@ -67,73 +65,61 @@ int main(){
     return 0;
 }
 
-T_fila * inicializa_fila(){
-    T_fila *ppilha = (T_fila *) malloc(sizeof(T_fila));
+T_pilha * inicializa_fila(){
+    T_pilha *ppilha = (T_pilha *) malloc(sizeof(T_pilha));
     if(ppilha == NULL){
         system("cls");
         printf("Memoria insuficiente para alocar estrutura.\n\n");
         system("pause");
         exit(1);
     }
-    ppilha->inicio = NULL;
-    ppilha->fim = NULL;
-    ppilha->tam = 0;
+    ppilha->topo = NULL;
     return ppilha;
 }
 
-void insere_fila(int n, T_fila *ppilha){
-    T_nodo *nova_fila = obtem_endereco();
-    if(ppilha->inicio == NULL){//Tá vazia?
-        ppilha->inicio = nova_fila;
-        ppilha->fim = nova_fila;
-    } else {//Não tá vazia
-        ppilha->fim->prox = nova_fila;
-        ppilha->fim = nova_fila;
-    }
-    ppilha->tam++;
-    nova_fila->prox = NULL;
-    nova_fila->info = n;
+void empilha(int n, T_pilha *ppilha){
+    T_nodo *nova_pilha = obtem_endereco();
+    nova_pilha->info = n;
+    nova_pilha->prox = ppilha->topo;
+    ppilha->topo = nova_pilha;
     system("cls");
     printf("Elemento inserido.\n\n");
     system("pause");
 }
 
 T_nodo * obtem_endereco(){
-    T_nodo *nova_fila = (T_nodo *) malloc(sizeof(T_nodo));
-    if(nova_fila == NULL){
+    T_nodo *nova_pilha = (T_nodo *) malloc(sizeof(T_nodo));
+    if(nova_pilha == NULL){
         system("cls");
         printf("Memoria insuficiente para alocar estrutura.\n\n");
         system("pause");
         exit(1);
     }
-    return nova_fila;
+    return nova_pilha;
 }
 
-void retira_fila(T_fila *ppilha){
+void desempilha(T_pilha *ppilha){
     system("cls");
-    if(ppilha->inicio == NULL){//Tá fazia?
-        printf("Fila vazia!\n\n");
-        system("pause");
-        return;
-    } else if(ppilha->inicio == ppilha->fim){//Não tá vazia / É o único elemento?
-        ppilha->fim = NULL;
-    }
-    T_nodo *aux = ppilha->inicio;
-    ppilha->inicio = ppilha->inicio->prox;
-    printf("O elemento %d foi retirado.\n\n", aux->info);
-    free(aux);
-    ppilha->tam--;
-    system("pause");
-}
-
-void mostra_dados(T_fila *ppilha){
-    system("cls");
-    if(ppilha->inicio == NULL){//Tá vazia?
+    if(ppilha->topo == NULL){//Tá fazia?
         printf("Pilha vazia!\n\n");
         system("pause");
         return;
     }
-    T_nodo *aux = ppilha->inicio;
+    T_nodo *aux = ppilha->topo;
+    ppilha->topo = ppilha->topo->prox;
+    printf("O elemento %d foi retirado.\n\n", aux->info);
+    free(aux);
+    system("pause");
+}
+
+void mostra_dados(T_pilha *ppilha){
+    system("cls");
+    if(ppilha->topo == NULL){//Tá vazia?
+        printf("Pilha vazia!\n\n");
+        system("pause");
+        return;
+    }
+    T_nodo *aux = ppilha->topo;
     printf("Elementos da pilha:\n");
     while(aux != NULL){
         printf("\t%d\n", aux->info);

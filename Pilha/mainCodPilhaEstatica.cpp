@@ -5,7 +5,7 @@
 
 #define MAXPILHA 10
 
-typedef struct fila{
+typedef struct pilha{
     int elemento[MAXPILHA];
     int topo;
 } T_pilha;
@@ -63,15 +63,15 @@ int main(){
 }
 
 T_pilha * inicializa_pilha(){
-    T_pilha *nova_fila = (T_pilha *) malloc(sizeof(T_pilha));
-    if(nova_fila == NULL){
+    T_pilha *nova_pilha = (T_pilha *) malloc(sizeof(T_pilha));
+    if(nova_pilha == NULL){
         system("cls");
         printf("Memória insuficiente!\n\n");
         system("pause");
         exit(1);
     }
-    nova_fila->topo = 0;
-    return nova_fila;
+    nova_pilha->topo = 0;
+    return nova_pilha;
 }
 
 void empilha(int n, T_pilha *ppilha){
