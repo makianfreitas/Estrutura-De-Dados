@@ -1,31 +1,30 @@
-//CÓDIGO BASE DE FILA EM ESTRUTURA ESTÁTICA
+//CÓDIGO BASE DE PILHA EM ESTRUTURA ESTÁTICA
 
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAXFILA 10
+#define MAXPILHA 10
 
 typedef struct fila{
-    int elemento[MAXFILA];
-    int inicio;
-    int fim;
-} T_fila;
+    int elemento[MAXPILHA];
+    int topo;
+} T_pilha;
 
-T_fila * inicializa_fila();
-void insere_fila(int, T_fila *);
-void retira_fila(T_fila *);
-void mostra_dados(T_fila *);
+T_pilha * inicializa_pilha();
+void empilha(int, T_pilha *);
+void desempilha(T_pilha *);
+void mostra_dados(T_pilha *);
 
 int main(){
     int n, op;
-    T_fila *pfila = inicializa_fila();
+    T_pilha *ppilha = inicializa_pilha();
     system("cls");
     do{
         do{
             system("cls");
             printf("******************** MENU ********************\n");
-            printf("\t1- Inserir\n");
-            printf("\t2- Retirar\n");
+            printf("\t1- Empilhar\n");
+            printf("\t2- Desempilhar\n");
             printf("\t3- Mostrar Dados\n");
             printf("\t0- Finalizar\n");
             scanf("\t%d", &op);
@@ -34,15 +33,15 @@ int main(){
                     system("cls");
                     printf("Digite a informacao: ");
                     scanf("%d", &n);
-                    insere_fila(n, pfila);
+                    empilha(n, ppilha);
                     break;
                 
                 case 2:
-                    retira_fila(pfila);
+                    desempilha(ppilha);
                     break;
                 
                 case 3:
-                    mostra_dados(pfila);
+                    mostra_dados(ppilha);
                     break;
 
                 case 0:
@@ -63,56 +62,55 @@ int main(){
     return 0;
 }
 
-T_fila * inicializa_fila(){
-    T_fila *nova_fila = (T_fila *) malloc(sizeof(T_fila));
+T_pilha * inicializa_pilha(){
+    T_pilha *nova_fila = (T_pilha *) malloc(sizeof(T_pilha));
     if(nova_fila == NULL){
         system("cls");
         printf("Memória insuficiente!\n\n");
         system("pause");
         exit(1);
     }
-    nova_fila->inicio = 0;
-    nova_fila->fim = 0;
+    nova_fila->topo = 0;
     return nova_fila;
 }
 
-void insere_fila(int n, T_fila *pfila){
+void empilha(int n, T_pilha *ppilha){
     system("cls");
-    if(pfila->inicio == (pfila->fim + 1) % MAXFILA){
-        printf("Fila cheia!\n\n");
+    if(ppilha->topo >= MAXPILHA){
+        printf("Pilha cheia!\n\n");
         system("pause");
         return;
     }
-    pfila->elemento[pfila->fim] = n;
-    pfila->fim = (pfila->fim + 1) % MAXFILA;
+    ppilha->elemento[ppilha->topo] = n;
+    ppilha->topo++;
     printf("Elemento inserido.\n\n");
     system("pause");
 }
 
-void retira_fila(T_fila *pfila){
+void desempilha(T_pilha *ppilha){
     system("cls");
-    if(pfila->inicio == pfila->fim){//Tá vazia?
-        printf("Fila vazia!\n\n");
+    if(ppilha->topo == 0){//Tá vazia?
+        printf("Pilha vazia!\n\n");
         system("pause");
         return;
     }
-    printf("O elemento %d foi retirado.\n\n", pfila->elemento[pfila->inicio]);
-    pfila->inicio = (pfila->inicio + 1) % MAXFILA;
+    printf("O elemento %d foi retirado.\n\n", ppilha->elemento[ppilha->topo-1]);
+    ppilha->topo--;
     system("pause");
 
 }
 
-void mostra_dados(T_fila *pfila){
+void mostra_dados(T_pilha *ppilha){
     int i;
     system("cls");
-    if(pfila->inicio == pfila->fim){//Tá vazia
-        printf("Fila vazia!\n\n");
+    if(ppilha->topo == 0){//Tá vazia?
+        printf("Pilha vazia!\n\n");
         system("pause");
         return;
     }
-    printf("Elementos da fila:\n");
-    for(i=pfila->inicio; i != pfila->fim; i = (i+1)%MAXFILA){
-        printf("\t%d\n", pfila->elemento[i]);
+    printf("Elementos da pilha:\n");
+    for(i=ppilha->topo-1; i >= 0; i--){
+        printf("\t%d\n", ppilha->elemento[i]);
     }
     printf("\n");
     system("pause");

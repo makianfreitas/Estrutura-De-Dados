@@ -128,7 +128,7 @@ void retira_fila(T_fila *pfila){
 
 void mostra_dados(T_fila *pfila){
     system("cls");
-    if(pfila->inicio == NULL){
+    if(pfila->inicio == NULL){//Tá vazia?
         printf("Nao ha nenhum elemento na lista.\n\n");
         system("pause");
         return;
