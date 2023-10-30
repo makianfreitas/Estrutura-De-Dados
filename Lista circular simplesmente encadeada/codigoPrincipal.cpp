@@ -1,3 +1,5 @@
+//CÓDIGO BASE DE LISTA CIRCULAR SIMPLESMENTE ENCADEADA
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -165,6 +167,7 @@ int consultar(int n){
 }
 
 void excluir(int n){
+    system("cls");
     T_lista *aux = cabeca->inicio;
     T_lista *atual = cabeca->inicio;
     for(cont=0; cont < cabeca->tam && atual->info != n; cont++){
@@ -172,7 +175,6 @@ void excluir(int n){
         atual = atual->prox;
     }
     if(cont == cabeca->tam){//Não existe
-        system("cls");
         printf("Elemento nao encontrado.\n\n");
         system("pause");
         return;
@@ -193,7 +195,6 @@ void excluir(int n){
     }
     free(atual);
     cabeca->tam--;
-    system("cls");
     printf("Elemento excluido.\n\n");
     system("pause");
 }
