@@ -1,4 +1,4 @@
-//CÓDIGO BASE DE FILA EM ESTRUTURA DINÂMICA
+//QUESTÃO 1 DO TESTE TROVÃO 2
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,50 +17,17 @@ typedef struct fila{
 T_fila * inicializa_fila();
 void insere_fila(int, T_fila *);
 T_nodo * obtem_endereco();
-void retira_fila(T_fila *);
 void mostra_dados(T_fila *);
 
 int main(){
-    int n, op;
+    int i, n, op;
     system("cls");
     T_fila *pfila = inicializa_fila();
-    do{
-        do{
-            system("cls");
-            printf("******************** MENU ********************\n");
-            printf("\t1- Inserir\n");
-            printf("\t2- Retirar\n");
-            printf("\t3- Mostrar Dados\n");
-            printf("\t0- Finalizar\n");
-            scanf("\t%d", &op);
-            switch(op){
-                case 1:
-                    system("cls");
-                    printf("Digite a informacao: ");
-                    scanf("%d", &n);
-                    insere_fila(n, pfila);
-                    break;
-                
-                case 2:
-                    retira_fila(pfila);
-                    break;
-                
-                case 3:
-                    mostra_dados(pfila);
-                    break;
-
-                case 0:
-                    system("cls");
-                    printf("Programa finalizado!\n\n");
-                    return 0;
-
-                default:
-                    system("cls");
-                    printf("DIGITE UMA OPCAO VALIDA!\n\n");
-                    system("pause");
-            }
-        }while(op < 0 || op > 3);
-    }while(op != 0);
+    insere_fila(5344, pfila);
+    insere_fila(6578, pfila);
+    insere_fila(3025, pfila);
+    insere_fila(7842, pfila);
+    insere_fila(4672, pfila);
 
     system("cls");
     printf("Programa encerrado de forma inesperada!\n\n");
@@ -107,23 +74,6 @@ T_nodo * obtem_endereco(){
         exit(1);
     }
     return nova_fila;
-}
-
-void retira_fila(T_fila *pfila){
-    system("cls");
-    if(pfila->inicio == NULL){//Tá fazia?
-        printf("Fila vazia!\n\n");
-        system("pause");
-        return;
-    } else if(pfila->inicio == pfila->fim){//Não tá vazia / É o único elemento?
-        pfila->fim = NULL;
-    }
-    T_nodo *aux = pfila->inicio;
-    pfila->inicio = pfila->inicio->prox;
-    printf("O elemento %d foi retirado.\n\n", aux->info);
-    free(aux);
-    pfila->tam--;
-    system("pause");
 }
 
 void mostra_dados(T_fila *pfila){
