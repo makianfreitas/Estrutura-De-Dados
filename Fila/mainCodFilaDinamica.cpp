@@ -129,12 +129,12 @@ void retira_fila(T_fila *pfila){
 void mostra_dados(T_fila *pfila){
     system("cls");
     if(pfila->inicio == NULL){//Tá vazia?
-        printf("Pilha vazia!\n\n");
+        printf("Fila vazia!\n\n");
         system("pause");
         return;
     }
     T_nodo *aux = pfila->inicio;
-    printf("Elementos da pilha:\n");
+    printf("Elementos da Fila:\n");
     while(aux != NULL){
         printf("\t%d\n", aux->info);
         aux = aux->prox;

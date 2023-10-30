@@ -12,7 +12,7 @@ typedef struct pilha{
     T_nodo *topo;
 }T_pilha;
 
-T_pilha * inicializa_fila();
+T_pilha * inicializa_pilha();
 void empilha(int, T_pilha *);
 T_nodo * obtem_endereco();
 void desempilha(T_pilha *);
@@ -21,7 +21,7 @@ void mostra_dados(T_pilha *);
 int main(){
     int n, op;
     system("cls");
-    T_pilha *ppilha = inicializa_fila();
+    T_pilha *ppilha = inicializa_pilha();
     do{
         do{
             system("cls");
@@ -65,7 +65,7 @@ int main(){
     return 0;
 }
 
-T_pilha * inicializa_fila(){
+T_pilha * inicializa_pilha(){
     T_pilha *ppilha = (T_pilha *) malloc(sizeof(T_pilha));
     if(ppilha == NULL){
         system("cls");
