@@ -19,7 +19,7 @@ typedef struct arvore{
 T_arvore * inicializa_arvore();
 T_nodo * cria_nodo(int, T_nodo *);
 void insere(int, T_arvore *);
-void consulta(int, T_arvore *);
+T_nodo * consulta(int, T_arvore *);
 void ordem(T_nodo *);
 void pre_ordem(T_nodo *);
 void pos_ordem(T_nodo *);
@@ -180,7 +180,7 @@ void insere(int n, T_arvore *parvore){
     system("pause");
 }
 
-void consulta(int n, T_arvore *parvore){
+T_nodo * consulta(int n, T_arvore *parvore){
     T_nodo *p, *aux;
     p = parvore->raiz;
     aux = parvore->raiz;
@@ -202,10 +202,12 @@ void consulta(int n, T_arvore *parvore){
             printf("Numero deletado logicamente.\n\n");
             system("pause");
         }
+        return p;
     } else {
         system("cls");
         printf("Numero inexistente.\n\n");
         system("pause");
+        return NULL;
     }
 }
 
